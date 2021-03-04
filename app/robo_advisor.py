@@ -2,10 +2,11 @@
 
 import csv
 import json
+from dotenv import load_dotenv
 import os
-
 import requests
 
+load_dotenv()
 
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
@@ -14,7 +15,10 @@ def to_usd(my_price):
 # INFO INPUTS
 #
 
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo"
+api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
+"demo"
+symbol = "MSFT"
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 
 
 response = requests.get(request_url)
