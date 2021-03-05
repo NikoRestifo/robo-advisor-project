@@ -34,7 +34,7 @@ while True:
             latest_close = parsed_response["Time Series (Daily)"][latest_day]["4. close"]
             break
     except:
-        print("Expecting a properly-formed stock symbol like 'MSFT'. Please try again")
+        print("Could not find any trading data for that stock symbol. Please try again")
 
 # maximum of all high prices
 
