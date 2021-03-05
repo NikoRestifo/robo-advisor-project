@@ -15,25 +15,26 @@ def to_usd(my_price):
 # INFO INPUTS
 #
 
-api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
-"demo"
-symbol = "MSFT"
-request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
-
-
-response = requests.get(request_url)
-
-parsed_response = json.loads(response.text)
-
-last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
-
-tsd = parsed_response["Time Series (Daily)"]
-
-dates = list(tsd.keys())
-
-latest_day = dates[0]
-
-latest_close = parsed_response["Time Series (Daily)"][latest_day]["4. close"]
+while True:
+    try:
+        symbol = input("Please enter a stock or cryptocurrency symbol: ")
+        if len(symbol) > 5:
+            for letter in symbol:
+                if letter.isnumeric() == true:
+                    print("Expecting a properly-formed stock symbol like 'MSFT'. Please try again")
+        else:
+            api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
+            request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
+            response = requests.get(request_url)
+            parsed_response = json.loads(response.text)
+            last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
+            tsd = parsed_response["Time Series (Daily)"]
+            dates = list(tsd.keys())
+            latest_day = dates[0]
+            latest_close = parsed_response["Time Series (Daily)"][latest_day]["4. close"]
+            break
+    except:
+        print("Expecting a properly-formed stock symbol like 'MSFT'. Please try again")
 
 # maximum of all high prices
 
@@ -42,16 +43,16 @@ low_prices = []
 
 for date in dates:
     high_price = tsd[date]["2. high"]
-    low_price = tsd[date]["3. low"]
+    low_price = tsd[date]["3. low"]        
     high_prices.append(float(high_price))
     low_prices.append(float(low_price))
 
 recent_high = max(high_prices)
 recent_low = min(low_prices)
 
-#
-# INFO OUTPUTS
-#
+ #
+ # INFO OUTPUTS
+ #
 
 
 #csv_file_path = "data/prices.csv" # a relative filepath
@@ -72,7 +73,7 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
             "close": daily_prices["4. close"],
             "volume": daily_prices["5. volume"],
         })
-   
+    
 print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
 print("-------------------------")
@@ -91,4 +92,5 @@ print("WRITING DATA TO CSV...")
 print("-------------------------")
 print("HAPPY INVESTING!")
 print("-------------------------")
+
 
