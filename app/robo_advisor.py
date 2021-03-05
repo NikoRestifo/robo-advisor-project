@@ -4,6 +4,7 @@ import csv
 import json
 from dotenv import load_dotenv
 import os
+import datetime
 import requests
 
 load_dotenv()
@@ -11,6 +12,10 @@ load_dotenv()
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
 
+def timestamp():
+    date = datetime.date.today()
+    time = datetime.datetime.now()
+    print("REQUEST AT:", date, time.strftime("%I:%M:%S %p"))
 #
 # INFO INPUTS
 #
@@ -75,10 +80,10 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
         })
     
 print("-------------------------")
-print("SELECTED SYMBOL: XYZ")
+print("SELECTED SYMBOL:", symbol.upper())
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
-print("REQUEST AT: 2018-02-20 02:00pm")
+timestamp()
 print("-------------------------")
 print(f"LATEST DAY: {last_refreshed}")
 print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
