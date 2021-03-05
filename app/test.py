@@ -23,30 +23,36 @@ def timestamp():
 symbols = []
 
 count = 0
-while True:
-    try:
-        symbol = input("Please enter a stock or cryptocurrency symbol, or type 'DONE' if there are more no stocks to enter: ")
-        if len(symbol) > 5:
-            for letter in symbol:
-                if letter.isnumeric() == true:
-                    print("Expecting a properly-formed stock symbol like 'MSFT'. Please try again")
-        else:
-            count = count + 1
-            if symbol.lower() == 'done':
-                break
-            else:
-                if count == 5:
-                    symbols.append(symbol)
-                    break 
-                symbols.append(symbol)
-                continue
-    except:
-        print("Could not find any trading data for that stock symbol. Please try again")
+
+flag = True
+while flag == True:
+    symbol = input("Please enter a stock or cryptocurrency symbol, or type 'DONE' if there are more no stocks to enter: ") 
+    if symbol.lower() == 'done':
+        flag = False
+    else:
+        symbols.append(symbol)        
 
 for symbol in symbols:
+    flag1 = False
+    for i in range(len(symbol)):
+        if symbol[i].isnumeric():
+            print("Expecting a properly-formed stock symbol like 'MSFT'. Please try again")
+            flag1 = True
+            break
+    if flag1 == True:
+        continue
+    if len(symbol) > 5:
+        print("Expecting a properly-formed stock symbol like 'MSFT'. Please try again")
+        continue
     api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
     request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
     response = requests.get(request_url)
+    if "Error Message" in response.text:
+        "Could not find any trading data for that stock symbol. Please try again"
+        continue
+    if "higher API call frequency" in response.text:
+        print("You entered too many stocks. Please try again")
+        quit()
     parsed_response = json.loads(response.text)
     last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
     tsd = parsed_response["Time Series (Daily)"]
@@ -114,9 +120,7 @@ for symbol in symbols:
     print(f"RECOMMENDATION REASON: {recommendation_reason}")
     print("-------------------------")
     print("WRITING DATA TO CSV...")
-    print("-------------------------")
-    
+
+print("-------------------------")
 print("HAPPY INVESTING!")
 print("-------------------------")
-
-

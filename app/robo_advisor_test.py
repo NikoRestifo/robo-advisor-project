@@ -25,11 +25,12 @@ symbols = []
 count = 0
 while True:
     try:
-        symbol = input("Please enter a stock or cryptocurrency symbol, or type 'DONE' if there are more no stocks to enter: ")
-        if len(symbol) > 5:
-            for letter in symbol:
-                if letter.isnumeric() == true:
-                    print("Expecting a properly-formed stock symbol like 'MSFT'. Please try again")
+        symbol = input("Please enter a stock or cryptocurrency symbol, or type 'DONE' if there are more no stocks to enter: ") 
+        for letter in symbol:
+            if letter.isnumeric() == true:
+                print("Expecting a properly-formed stock symbol like 'MSFT'. Please try again")
+            elif len(symbol) > 5:
+                print("Expecting a properly-formed stock symbol like 'MSFT'. Please try again")
         else:
             count = count + 1
             if symbol.lower() == 'done':
@@ -119,4 +120,6 @@ for symbol in symbols:
 print("HAPPY INVESTING!")
 print("-------------------------")
 
+
+for i in range(len(sybol))
 
