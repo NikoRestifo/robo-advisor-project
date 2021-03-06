@@ -5,32 +5,37 @@ import json
 from dotenv import load_dotenv
 import os
 import datetime
+import seaborn as sns
+from pandas import read_csv
+import plotly
+import plotly.graph_objs as go
 import requests
+import matplotlib.pyplot as plt
+
 
 load_dotenv()
 
 def to_usd(my_price):
-    return "${0:,.2f}".format(my_price)
+   return "${0:,.2f}".format(my_price)
 
-def timestamp():
-    date = datetime.date.today()
-    time = datetime.datetime.now()
-    print("REQUEST AT:", date, time.strftime("%I:%M:%S %p"))
+def make_timestamp():
+   date = datetime.date.today()
+   time = datetime.datetime.now()
+   print("REQUEST AT:", date, time.strftime("%I:%M:%S %p"))
+
 #
-# INFO INPUTS
+#INFO INPUTS
 #
 
 symbols = []
 
-count = 0
-
 flag = True
 while flag == True:
-    symbol = input("Please enter a stock or cryptocurrency symbol, or type 'DONE' if there are more no stocks to enter: ") 
-    if symbol.lower() == 'done':
-        flag = False
-    else:
-        symbols.append(symbol)        
+   symbol = input("Please enter a stock or cryptocurrency symbol, or type 'DONE' if there are more no stocks to enter: ") 
+   if symbol.lower() == 'done':
+       flag = False
+   else:
+       symbols.append(symbol)        
 
 for symbol in symbols:
     flag1 = False
@@ -48,7 +53,7 @@ for symbol in symbols:
     request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
     response = requests.get(request_url)
     if "Error Message" in response.text:
-        "Could not find any trading data for that stock symbol. Please try again"
+        print("Could not find any trading data for that stock symbol. Please try again")
         continue
     if "higher API call frequency" in response.text:
         print("You entered too many stocks. Please try again")
@@ -60,7 +65,7 @@ for symbol in symbols:
     latest_day = dates[0]
     latest_close = parsed_response["Time Series (Daily)"][latest_day]["4. close"]
 
-    # maximum of all high prices
+# maximum of all high prices
 
     high_prices = []
     low_prices = []
@@ -81,12 +86,9 @@ for symbol in symbols:
     else:
         recommendation = "RECOMMENDATON: SELL"
         recommendation_reason = "The stock's latest closing price is greater than 20% above its recent low"
-    #
-    # INFO OUTPUTS
-    #
-
-
-    #csv_file_path = "data/prices.csv" # a relative filepath
+#
+# INFO OUTPUTS
+#
 
     csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", f"prices_{symbol}.csv")
 
@@ -104,12 +106,12 @@ for symbol in symbols:
                 "close": daily_prices["4. close"],
                 "volume": daily_prices["5. volume"],
             })
-        
+       
     print("-------------------------")
     print("SELECTED SYMBOL:", symbol.upper())
     print("-------------------------")
     print("REQUESTING STOCK MARKET DATA...")
-    timestamp()
+    make_timestamp()
     print("-------------------------")
     print(f"LATEST DAY: {last_refreshed}")
     print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
@@ -120,7 +122,20 @@ for symbol in symbols:
     print(f"RECOMMENDATION REASON: {recommendation_reason}")
     print("-------------------------")
     print("WRITING DATA TO CSV...")
+    print("-------------------------")
+    print("PLEASE EXIT THE GRAPH TO PROCEED")
 
+
+    csv_filename = f"data/prices_{symbol}.csv"
+    stocks_df = read_csv(csv_filename)
+    sns.lineplot(data= stocks_df, x="timestamp", y= "close").invert_xaxis()
+    plt.title("Price over past 100 days")
+    plt.xlabel("Date")
+    plt.ylabel("Price")
+    plt.show()
+
+finish = input("press done")
 print("-------------------------")
 print("HAPPY INVESTING!")
 print("-------------------------")
+quit()

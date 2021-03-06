@@ -1,3 +1,6 @@
 # this is the "requirements.txt" file
 requests
 python-dotenv
+pandas
+seaborn
+plotly

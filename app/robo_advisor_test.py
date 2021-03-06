@@ -117,6 +117,11 @@ for symbol in symbols:
     print("WRITING DATA TO CSV...")
     print("-------------------------")
     
+    import pandas as pd
+    monthly_sales_df = pd.read_csv(csv_filename)
+    import seaborn as sns
+    sns.barplot(data = monthly_sales_df, x="product", y="units sold")
+    sns.lineplot(data = monthly_sales_df, x="date", y="sales price")
 print("HAPPY INVESTING!")
 print("-------------------------")
 
