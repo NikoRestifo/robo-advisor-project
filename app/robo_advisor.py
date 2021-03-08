@@ -83,10 +83,10 @@ for symbol in symbols:
 
     # buy or sell
     if float(latest_close) <= float(recent_low) * 1.2:
-        recommendation = "RECOMMENDATION: BUY"
+        recommendation = "BUY"
         recommendation_reason = "The stock's latest closing price is less than 20% above its recent low"
     else:
-        recommendation = "RECOMMENDATON: SELL"
+        recommendation = "SELL"
         recommendation_reason = "The stock's latest closing price is greater than 20% above its recent low"
 
 #
