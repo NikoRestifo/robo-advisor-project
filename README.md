@@ -1,6 +1,6 @@
 # Robo Advisor Program
 
-A Python application that allows the user to pick stocks and returns information about them and then determines whether the user should buy or sell the stocks.
+A Python application that allows the user to pick stocks, returns information about them, and then determines whether the user should buy or sell the stocks.
 
 ## Prerequisites
 
@@ -50,4 +50,4 @@ python app/robo_advisor.py
 
 ## Gameplay
 
-Once the game script is run, the user is required to enter stocks one at a time. The user should type 'DONE' when finished entering stock tickers. Once a line chart of a graph pops up, the program will not proceed until the user closes the chart.
+Once the game script is run, the user is required to enter stocks one at a time. The user should type 'DONE' when finished entering stock tickers. Once a line chart pops up, the program will not proceed until the user closes the chart.
