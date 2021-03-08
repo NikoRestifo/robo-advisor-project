@@ -12,8 +12,13 @@ import requests
 
 load_dotenv()
 
+#convert numberical values to dollars
+
 def to_usd(my_price):
    return "${0:,.2f}".format(my_price)
+
+
+#create human friendly timestamp for output
 
 def make_timestamp():
    date = datetime.date.today()
