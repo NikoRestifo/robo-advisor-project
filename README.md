@@ -41,13 +41,11 @@ In in the root directory of your local repository, create a new file called ".en
 
 ## Usage
 
-Run the game script:
+Run the program:
 
 ```py
 python app/robo_advisor.py
 
 ```
 
-## Gameplay
-
-Once the game script is run, the user is required to enter stocks one at a time. The user should type 'DONE' when finished entering stock tickers. Once a line chart pops up, the program will not proceed until the user closes the chart.
+Once the program is run, the user is required to enter stocks one at a time. The user should type 'DONE' when finished entering stock tickers. Once a line chart pops up, the program will not proceed until the user closes the chart.
